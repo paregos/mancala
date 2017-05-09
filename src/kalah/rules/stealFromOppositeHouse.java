@@ -2,15 +2,34 @@ package kalah.rules;
 
 import kalah.BoardSide;
 import kalah.Rule;
+import kalah.RuleTriggerTime;
 import kalah.TurnState;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Ben on 5/9/2017.
  */
 public class stealFromOppositeHouse implements Rule {
 
+    Set<RuleTriggerTime> triggerTimes;
+
+    public stealFromOppositeHouse(){
+        super();
+
+        //Defining default trigger times.
+        HashSet<RuleTriggerTime> t = new HashSet<RuleTriggerTime>();
+        t.add(RuleTriggerTime.beforeEachSeedPlacement);
+
+        this.triggerTimes = t;
+    }
+
+    public stealFromOppositeHouse(HashSet<RuleTriggerTime> triggerTimes){
+        super();
+        this.triggerTimes = triggerTimes;
+    }
 
     @Override
     public boolean executeLogic(TurnState turnState, ArrayList<BoardSide> boardSides) {
@@ -30,5 +49,10 @@ public class stealFromOppositeHouse implements Rule {
             return false;
 
 
+    }
+
+    @Override
+    public boolean shouldExecute(RuleTriggerTime triggerTime) {
+        return false;
     }
 }
