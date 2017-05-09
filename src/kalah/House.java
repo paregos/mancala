@@ -38,7 +38,11 @@ public class House {
     }
 
     public String toString(){
-        return "[ "+this.seeds+"]";
+        if(this.seeds<10) {
+            return "[ " + this.seeds + "]";
+        }else{
+            return "["+this.seeds+"]";
+        }
     }
 
 }
