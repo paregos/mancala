@@ -16,7 +16,7 @@ public class stealFromOppositeHouse implements Rule {
 
     Set<RuleTriggerTime> triggerTimes;
 
-    public stealFromOppositeHouse(){
+    public stealFromOppositeHouse() {
         super();
 
         //Defining default trigger times.
@@ -26,7 +26,7 @@ public class stealFromOppositeHouse implements Rule {
         this.triggerTimes = t;
     }
 
-    public stealFromOppositeHouse(HashSet<RuleTriggerTime> triggerTimes){
+    public stealFromOppositeHouse(HashSet<RuleTriggerTime> triggerTimes) {
         super();
         this.triggerTimes = triggerTimes;
     }
@@ -34,7 +34,9 @@ public class stealFromOppositeHouse implements Rule {
     @Override
     public boolean executeLogic(TurnState turnState, ArrayList<BoardSide> boardSides) {
 
-        if (turnState.getHouse() < 6 && ((turnState.getBoardSide() == turnState.getPlayer()) && ((boardSides.get(turnState.getBoardSide()).getHouse(turnState.getHouse()).getSeeds() == 0) && (turnState.getSeeds() == 1)))) {
+        if (turnState.getHouse() < 6 && ((turnState.getBoardSide() == turnState.getPlayer()) && ((boardSides.get
+                (turnState.getBoardSide()).getHouse(turnState.getHouse()).getSeeds() == 0) && (turnState.getSeeds()
+                == 1)))) {
 
             //TODO: make oppositeplayer variable work for more than two players
             //take all of the opposite stores seeds (hardcoded for two players)
@@ -46,7 +48,8 @@ public class stealFromOppositeHouse implements Rule {
                 return true;
             }
         }
-            return false;
+
+        return false;
 
 
     }

@@ -12,11 +12,11 @@ import java.util.Set;
 /**
  * Created by Ben on 5/10/2017.
  */
-public class noPlayableMove implements Rule {
+public class noPlayableTurn implements Rule {
 
     Set<RuleTriggerTime> triggerTimes;
 
-    public noPlayableMove(){
+    public noPlayableTurn(){
         super();
 
         //Defining default trigger times.
@@ -26,7 +26,7 @@ public class noPlayableMove implements Rule {
         this.triggerTimes = t;
     }
 
-    public noPlayableMove(HashSet<RuleTriggerTime> triggerTimes){
+    public noPlayableTurn(HashSet<RuleTriggerTime> triggerTimes){
         super();
         this.triggerTimes = triggerTimes;
     }
@@ -36,6 +36,7 @@ public class noPlayableMove implements Rule {
     public boolean executeLogic(TurnState turnState, ArrayList<BoardSide> boardSides) {
 
         if (turnState.getSeeds() == 0) {
+            System.out.println("no seeds");
             if (boardSides.get(turnState.getPlayer()).hasEmptyHouses()) {
                 turnState.setNaturalEnd(true);
                 turnState.setGameOver(true);

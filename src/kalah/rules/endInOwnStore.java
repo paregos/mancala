@@ -16,7 +16,7 @@ public class endInOwnStore implements Rule {
 
     Set<RuleTriggerTime> triggerTimes;
 
-    public endInOwnStore(){
+    public endInOwnStore() {
         super();
 
         //Defining default trigger times.
@@ -26,7 +26,7 @@ public class endInOwnStore implements Rule {
         this.triggerTimes = t;
     }
 
-    public endInOwnStore(HashSet<RuleTriggerTime> triggerTimes){
+    public endInOwnStore(HashSet<RuleTriggerTime> triggerTimes) {
         super();
         this.triggerTimes = triggerTimes;
     }
@@ -34,12 +34,13 @@ public class endInOwnStore implements Rule {
 
     @Override
     public boolean executeLogic(TurnState turnState, ArrayList<BoardSide> boardSides) {
-        if ((turnState.getBoardSide() == turnState.getPlayer()) && ((turnState.getSeeds() == 1) && (turnState.getHouse() == 6))) {
+        if ((turnState.getBoardSide() == turnState.getPlayer()) && ((turnState.getSeeds() == 1) && (turnState
+                .getHouse() == 6))) {
             boardSides.get(turnState.getBoardSide()).getStore().incrementSeeds(1);
             turnState.decrementSeeds(1);
             turnState.setAdditionalTurn(true);
             return true;
-        }else{
+        } else {
             return false;
         }
     }
