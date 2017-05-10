@@ -11,8 +11,7 @@ public class TurnState {
     private boolean additionalTurn;
     private int boardSide;
     private int house;
-    private boolean gameOver;
-    private boolean naturalEnd;
+    private int gameOver;
 
     public TurnState() {
         super();
@@ -22,12 +21,10 @@ public class TurnState {
         this.additionalTurn = false;
         this.boardSide = 0;
         this.house = 0;
-        this.gameOver = false;
-        this.naturalEnd = false;
+        this.gameOver = 0;
     }
 
-    public TurnState(int seeds, int player, int players[], boolean additionalTurn, int boardSide, int house, boolean
-            gameOver, boolean naturalEnd) {
+    public TurnState(int seeds, int player, int players[], boolean additionalTurn, int boardSide, int house, int gameOver) {
         this.seeds = seeds;
         this.player = player;
         this.players = players;
@@ -35,7 +32,6 @@ public class TurnState {
         this.boardSide = boardSide;
         this.house = house;
         this.gameOver = gameOver;
-        this.naturalEnd = naturalEnd;
     }
 
 
@@ -75,13 +71,6 @@ public class TurnState {
         return;
     }
 
-    public boolean isNaturalEnd() {
-        return naturalEnd;
-    }
-
-    public void setNaturalEnd(boolean naturalEnd) {
-        this.naturalEnd = naturalEnd;
-    }
 
     public boolean isAdditionalTurn() {
         return additionalTurn;
@@ -131,11 +120,11 @@ public class TurnState {
         this.house = house;
     }
 
-    public boolean isGameOver() {
+    public int getGameOver() {
         return gameOver;
     }
 
-    public void setGameOver(boolean gameOver) {
+    public void setGameOver(int gameOver) {
         this.gameOver = gameOver;
     }
 }

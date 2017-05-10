@@ -38,8 +38,7 @@ public class noPlayableTurn implements Rule {
         if (turnState.getSeeds() == 0) {
             System.out.println("no seeds");
             if (boardSides.get(turnState.getPlayer()).hasEmptyHouses()) {
-                turnState.setNaturalEnd(true);
-                turnState.setGameOver(true);
+                turnState.setGameOver(1);
                 return true;
             }
         }

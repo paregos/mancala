@@ -15,6 +15,8 @@ import java.util.Set;
 public class stealFromOppositeHouse implements Rule {
 
     Set<RuleTriggerTime> triggerTimes;
+    private int numberOfHouses;
+
 
     public stealFromOppositeHouse() {
         super();
@@ -23,18 +25,20 @@ public class stealFromOppositeHouse implements Rule {
         HashSet<RuleTriggerTime> t = new HashSet<RuleTriggerTime>();
         t.add(RuleTriggerTime.beforeEachSeedPlacement);
 
+        this.numberOfHouses = 6;
         this.triggerTimes = t;
     }
 
-    public stealFromOppositeHouse(HashSet<RuleTriggerTime> triggerTimes) {
+    public stealFromOppositeHouse(HashSet<RuleTriggerTime> triggerTimes, int numberOfHouses) {
         super();
         this.triggerTimes = triggerTimes;
+        this.numberOfHouses = numberOfHouses;
     }
 
     @Override
     public boolean executeLogic(TurnState turnState, ArrayList<BoardSide> boardSides) {
 
-        if (turnState.getHouse() < 6 && ((turnState.getBoardSide() == turnState.getPlayer()) && ((boardSides.get
+        if (turnState.getHouse() < numberOfHouses && ((turnState.getBoardSide() == turnState.getPlayer()) && ((boardSides.get
                 (turnState.getBoardSide()).getHouse(turnState.getHouse()).getSeeds() == 0) && (turnState.getSeeds()
                 == 1)))) {
 

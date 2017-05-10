@@ -31,7 +31,7 @@ public class Kalah {
     }
 
     public void play(IO io) {
-        while (!this.turnState.isGameOver()) {
+        while (this.turnState.getGameOver() == 0) {
             takeSeeds(io);
             placeSeeds();
             this.turnState.setPlayerToNext();
@@ -61,8 +61,7 @@ public class Kalah {
                             .getHouse()).takeSeeds();
                     this.turnState.setSeeds(seeds);
                 } else {
-                    this.turnState.setGameOver(true);
-                    this.turnState.setNaturalEnd(false);
+                    this.turnState.setGameOver(-1);
                     return;
                 }
                 if (this.turnState.getSeeds() == 0) {
@@ -123,7 +122,7 @@ public class Kalah {
         printBoard(io);
 
         //print the winners and score only if the game ended naturally
-        if (this.turnState.isNaturalEnd()) {
+        if (this.turnState.getGameOver() == 1) {
             for (int i = 0; i < this.boardSides.size(); i++) {
                 BoardSide b = this.boardSides.get(i);
                 b.sumHousesAndEnd();
