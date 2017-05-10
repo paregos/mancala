@@ -53,6 +53,6 @@ public class stealFromOppositeHouse implements Rule {
 
     @Override
     public boolean shouldExecute(RuleTriggerTime triggerTime) {
-        return false;
+        return this.triggerTimes.contains(triggerTime);
     }
 }

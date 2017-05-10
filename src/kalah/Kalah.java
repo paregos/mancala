@@ -3,9 +3,9 @@ package kalah;
 import com.qualitascorpus.testsupport.IO;
 import com.qualitascorpus.testsupport.MockIO;
 import kalah.rules.endInOwnStore;
+import kalah.rules.noPlayableMove;
 import kalah.rules.stealFromOppositeHouse;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -28,7 +28,7 @@ public class Kalah {
 
     public Kalah() {
         super();
-        resetBoard();
+        resetGame();
     }
 
     public void play(IO io) {
@@ -56,23 +56,24 @@ public class Kalah {
         while(this.turnState.getSeeds() == 0) {
 
             printBoard(io);
-            if(checkGameEnd()){
-                this.turnState.setGameOver(true);
-                return;
-            }
+            if(!checkRules(RuleTriggerTime.beforeTurn)) {
 
-            this.turnState.setHouse(io.readInteger("Player P" + (this.turnState.getPlayer() + 1) + "'s turn - Specify house number or 'q' to quit: ", 1, 6, -1, "q")-1);
+                this.turnState.setHouse(io.readInteger("Player P" + (this.turnState.getPlayer() + 1) + "'s turn - Specify house number or 'q' to quit: ", 1, 6, -1, "q") - 1);
 
-            if(this.turnState.getHouse() > -1){
-                int seeds = this.boardSides.get(this.turnState.getBoardSide()).getHouses().get(this.turnState.getHouse()).takeSeeds();
-                this.turnState.setSeeds(seeds);
-            } else {
-                this.turnState.setGameOver(true);
-                this.turnState.setNaturalEnd(false);
+                if (this.turnState.getHouse() > -1) {
+                    int seeds = this.boardSides.get(this.turnState.getBoardSide()).getHouses().get(this.turnState.getHouse()).takeSeeds();
+                    this.turnState.setSeeds(seeds);
+                } else {
+                    this.turnState.setGameOver(true);
+                    this.turnState.setNaturalEnd(false);
+                    return;
+                }
+                if (this.turnState.getSeeds() == 0) {
+                    io.println("House is empty. Move again.");
+                }
+
+            }else{
                 return;
-            }
-            if(this.turnState.getSeeds() == 0){
-                io.println("House is empty. Move again.");
             }
         }
 
@@ -85,7 +86,7 @@ public class Kalah {
     //TODO: change this to be an iterative function using while loop
     public void placeSeeds() {
 
-        if (checkRules()) {
+        if (checkRules(RuleTriggerTime.beforeEachSeedPlacement)) {
             return;
         } else {
 
@@ -123,51 +124,16 @@ public class Kalah {
     }
 
     //returns true if the turn should stop
-    private boolean checkRules() {
-
-        System.out.println("In Check rules the next turn I will have " + this.turnState.getSeeds() + " seeds and be looking at house " + (this.turnState.getHouse() + 1));
+    private boolean checkRules(RuleTriggerTime triggerTime) {
 
         boolean turnEnding = false;
 
-//        //if the turn is ending in the players store
-//        if ((this.turnState.getBoardSide() == this.turnState.getPlayer()) && ((this.turnState.getSeeds() == 1) && (this.turnState.getHouse() == 6))) {
-//            this.boardSides.get(this.turnState.getBoardSide()).getStore().incrementSeeds(1);
-//            this.turnState.decrementSeeds(1);
-//            this.turnState.setAdditionalTurn(true);
-//            turnEnding = true;
-//
-//        //if the turn is ending in a previously empty house of the players
-//        } else if (this.turnState.getHouse() < 6 && ((this.turnState.getBoardSide() == this.turnState.getPlayer()) && ((this.boardSides.get(this.turnState.getBoardSide()).getHouse(this.turnState.getHouse()).getSeeds() == 0) && (this.turnState.getSeeds() == 1)))) {
-//            //take all of the opposite stores seeds (hardcoded for two players)
-//            int oppositePlayer = this.turnState.getPlayer() == 0 ? 1 : 0;
-//            int stolenSeeds = this.boardSides.get(oppositePlayer).getHouse(NUMBER_OF_HOUSES - this.turnState.getHouse() - 1).takeSeeds();
-//            if (stolenSeeds > 0) {
-//                this.boardSides.get(this.turnState.getBoardSide()).getStore().incrementSeeds((stolenSeeds + 1));
-//                this.turnState.decrementSeeds(1);
-//                turnEnding = true;
-//            }
-//        }
-
         for(Rule r : this.rules){
-            turnEnding = turnEnding || r.executeLogic(this.turnState, this.boardSides);
+            if(r.shouldExecute(triggerTime)) {
+                turnEnding = turnEnding || r.executeLogic(this.turnState, this.boardSides);
+            }
         }
-
-        System.out.println(turnEnding);
         return turnEnding;
-    }
-
-
-    private boolean checkGameEnd() {
-
-        if (this.turnState.getSeeds() == 0) {
-                if (this.boardSides.get(this.turnState.getPlayer()).hasEmptyHouses()) {
-                    System.out.println("ending game");
-                    this.turnState.setNaturalEnd(true);
-                    return true;
-                }
-        }
-
-        return false;
     }
 
     public void printGameEnd(IO io){
@@ -190,12 +156,11 @@ public class Kalah {
                 int winner = this.boardSides.get(0).getStore().getSeeds() > this.boardSides.get(1).getStore().getSeeds() ? 1 : 2;
                 io.println("Player " + winner + " wins!");
             }
-
         }
         return;
     }
 
-    public void resetBoard() {
+    public void resetGame() {
 
         //Create boardSides with default houses, alternatively houses can be constructed with a desired
         //number of seeds to begin with.
@@ -212,6 +177,7 @@ public class Kalah {
         ArrayList<Rule> rules = new ArrayList<Rule>();
         rules.add(new endInOwnStore());
         rules.add(new stealFromOppositeHouse());
+        rules.add(new noPlayableMove());
         this.rules = rules;
 
 

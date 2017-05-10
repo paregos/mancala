@@ -10,23 +10,23 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Created by Ben on 5/9/2017.
+ * Created by Ben on 5/10/2017.
  */
-public class endInOwnStore implements Rule {
+public class noPlayableMove implements Rule {
 
     Set<RuleTriggerTime> triggerTimes;
 
-    public endInOwnStore(){
+    public noPlayableMove(){
         super();
 
         //Defining default trigger times.
         HashSet<RuleTriggerTime> t = new HashSet<RuleTriggerTime>();
-        t.add(RuleTriggerTime.beforeEachSeedPlacement);
+        t.add(RuleTriggerTime.beforeTurn);
 
         this.triggerTimes = t;
     }
 
-    public endInOwnStore(HashSet<RuleTriggerTime> triggerTimes){
+    public noPlayableMove(HashSet<RuleTriggerTime> triggerTimes){
         super();
         this.triggerTimes = triggerTimes;
     }
@@ -34,19 +34,19 @@ public class endInOwnStore implements Rule {
 
     @Override
     public boolean executeLogic(TurnState turnState, ArrayList<BoardSide> boardSides) {
-        if ((turnState.getBoardSide() == turnState.getPlayer()) && ((turnState.getSeeds() == 1) && (turnState.getHouse() == 6))) {
-            boardSides.get(turnState.getBoardSide()).getStore().incrementSeeds(1);
-            turnState.decrementSeeds(1);
-            turnState.setAdditionalTurn(true);
-            return true;
-        }else{
-            return false;
+
+        if (turnState.getSeeds() == 0) {
+            if (boardSides.get(turnState.getPlayer()).hasEmptyHouses()) {
+                turnState.setNaturalEnd(true);
+                turnState.setGameOver(true);
+                return true;
+            }
         }
+        return false;
     }
 
     @Override
     public boolean shouldExecute(RuleTriggerTime triggerTime) {
         return this.triggerTimes.contains(triggerTime);
     }
-
 }
