@@ -36,24 +36,13 @@ public class Kalah {
             placeSeeds();
             this.turnState.setPlayerToNext(this.players);
         }
-        printGameEnd(io);
-    }
-
-
-    private void printBoard(IO io) {
-        io.println("+----+-------+-------+-------+-------+-------+-------+----+");
-        io.println("| P2 " + this.players.get(1).getBoardSide().toStringReverse() + this.players.get(0).getBoardSide().getStore().toString());
-        io.println("|    |-------+-------+-------+-------+-------+-------|    |");
-        io.println(this.players.get(1).getBoardSide().getStore().toString() + this.players.get(0).getBoardSide().toString() + " P1 |");
-        io.println("+----+-------+-------+-------+-------+-------+-------+----+");
-        return;
+        KalahUtilities.printGameEnd(io, this.players, this.turnState);
     }
 
     private void takeSeeds(IO io) {
         while (this.turnState.getSeeds() == 0) {
-            printBoard(io);
+            KalahUtilities.printBoard(io, this.players);
             if (!checkRules(RuleTriggerTime.beforeTurn)) {
-                System.out.println("here");
                 this.turnState.setHouseNumber(io.readInteger("Player P" + (this.turnState.getPlayer().getNumber() + 1) + "'s turn - " +
                         "Specify house number or 'q' to quit: ", 1, 6, -1, "q") - 1);
 
@@ -106,43 +95,6 @@ public class Kalah {
             }
         }
         return turnEnding;
-    }
-
-    public void printGameEnd(IO io) {
-        io.println("Game over");
-        printBoard(io);
-
-        //print the winners and score only if the game ended naturally
-        if (this.turnState.getGameOver() == 1) {
-            for (int i = 0; i < this.players.size(); i++) {
-                BoardSide b = this.players.get(i).getBoardSide();
-                b.sumHousesAndEnd();
-                io.println("\tplayer " + (i + 1) + ":" + b.getStore().getSeeds());
-            }
-            int winner = getWinner();
-            if(winner == -1){
-                io.println("A tie!");
-            } else {
-                io.println("Player " + winner + " wins!");
-            }
-        }
-    }
-
-    //returns -1 if there was a tie
-    private int getWinner(){
-        int highest = 0;
-        int player = 0;
-        int count = 0;
-        for(int i = 0; i < this.players.size(); i++){
-            if(this.players.get(i).getBoardSide().getStore().getSeeds() > highest){
-                highest = this.players.get(i).getBoardSide().getStore().getSeeds();
-                player = i;
-                count = 1;
-            }else if( this.players.get(i).getBoardSide().getStore().getSeeds() == highest){
-                count++;
-            }
-        }
-        return count > 1 ? -1 : player+1;
     }
 
     public void resetGame() {
