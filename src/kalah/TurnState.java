@@ -6,7 +6,6 @@ package kalah;
 public class TurnState {
 
     private int seeds;
-    private int[] players;
     private int player;
     private boolean additionalTurn;
     private int boardSide;
@@ -16,7 +15,6 @@ public class TurnState {
     public TurnState() {
         super();
         this.seeds = 0;
-        this.players = new int[2];
         this.player = 0;
         this.additionalTurn = false;
         this.boardSide = 0;
@@ -24,10 +22,9 @@ public class TurnState {
         this.gameOver = 0;
     }
 
-    public TurnState(int seeds, int player, int players[], boolean additionalTurn, int boardSide, int house, int gameOver) {
+    public TurnState(int seeds, int player, boolean additionalTurn, int boardSide, int house, int gameOver) {
         this.seeds = seeds;
         this.player = player;
-        this.players = players;
         this.additionalTurn = additionalTurn;
         this.boardSide = boardSide;
         this.house = house;
@@ -45,7 +42,7 @@ public class TurnState {
     public void setPlayerToNext() {
         if (!this.additionalTurn) {
             this.player++;
-            if (this.player == this.players.length) {
+            if (this.player == Kalah.NUMBER_OF_PLAYERS) {
                 this.player = 0;
             }
         } else {
@@ -86,14 +83,6 @@ public class TurnState {
 
     public void setSeeds(int seeds) {
         this.seeds = seeds;
-    }
-
-    public int[] getPlayers() {
-        return players;
-    }
-
-    public void setPlayers(int[] players) {
-        this.players = players;
     }
 
     public int getPlayer() {

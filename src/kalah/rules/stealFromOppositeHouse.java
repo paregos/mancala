@@ -1,9 +1,6 @@
 package kalah.rules;
 
-import kalah.BoardSide;
-import kalah.Rule;
-import kalah.RuleTriggerTime;
-import kalah.TurnState;
+import kalah.*;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -15,7 +12,6 @@ import java.util.Set;
 public class stealFromOppositeHouse implements Rule {
 
     Set<RuleTriggerTime> triggerTimes;
-    private int numberOfHouses;
 
 
     public stealFromOppositeHouse() {
@@ -24,21 +20,18 @@ public class stealFromOppositeHouse implements Rule {
         //Defining default trigger times.
         HashSet<RuleTriggerTime> t = new HashSet<RuleTriggerTime>();
         t.add(RuleTriggerTime.beforeEachSeedPlacement);
-
-        this.numberOfHouses = 6;
         this.triggerTimes = t;
     }
 
-    public stealFromOppositeHouse(HashSet<RuleTriggerTime> triggerTimes, int numberOfHouses) {
+    public stealFromOppositeHouse(HashSet<RuleTriggerTime> triggerTimes) {
         super();
         this.triggerTimes = triggerTimes;
-        this.numberOfHouses = numberOfHouses;
     }
 
     @Override
     public boolean executeLogic(TurnState turnState, ArrayList<BoardSide> boardSides) {
 
-        if (turnState.getHouse() < numberOfHouses && ((turnState.getBoardSide() == turnState.getPlayer()) && ((boardSides.get
+        if (turnState.getHouse() < Kalah.NUMBER_OF_HOUSES && ((turnState.getBoardSide() == turnState.getPlayer()) && ((boardSides.get
                 (turnState.getBoardSide()).getHouse(turnState.getHouse()).getSeeds() == 0) && (turnState.getSeeds()
                 == 1)))) {
 

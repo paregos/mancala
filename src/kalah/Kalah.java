@@ -13,8 +13,8 @@ import java.util.ArrayList;
  */
 public class Kalah {
 
-    public final int NUMBER_OF_HOUSES = 6;
-    public final int NUMBER_OF_PLAYERS = 2;
+    public static final int NUMBER_OF_HOUSES = 6;
+    public static final int NUMBER_OF_PLAYERS = 2;
 
     //players start at 0 (e.g player 0, player 1)
     private ArrayList<BoardSide> boardSides;
@@ -57,9 +57,9 @@ public class Kalah {
                         "Specify house number or 'q' to quit: ", 1, 6, -1, "q") - 1);
 
                 if (this.turnState.getHouse() > -1) {
-                    int seeds = this.boardSides.get(this.turnState.getBoardSide()).getHouses().get(this.turnState
-                            .getHouse()).takeSeeds();
-                    this.turnState.setSeeds(seeds);
+                    this.turnState.setSeeds(this.boardSides.get(this.turnState.getBoardSide()).getHouses().get(this.turnState
+                            .getHouse()).takeSeeds());
+                    this.turnState.incrementHouse(1);
                 } else {
                     this.turnState.setGameOver(-1);
                     return;
@@ -71,42 +71,36 @@ public class Kalah {
                 return;
             }
         }
-        this.turnState.incrementHouse(1);
     }
 
-
-    //TODO: change this to be an iterative function using while loop
     public void placeSeeds() {
-        //Initial exit condition when there are no seeds to place.
-        if (this.turnState.getSeeds() == 0) {
-            return;
-        }
-        if (checkRules(RuleTriggerTime.beforeEachSeedPlacement)) {
-            return;
-        } else {
-            //if we finished the last board side reset to the first board
-            if (this.turnState.getBoardSide() >= this.boardSides.size()) {
-                this.turnState.setHouse(0);
-                this.turnState.setBoardSide(0);
-            }
-            //Add to this players store or skip other players stores
-            if ((this.turnState.getHouse() == NUMBER_OF_HOUSES)) {
-                if (this.turnState.getPlayer() == this.turnState.getBoardSide()) {
-                    this.boardSides.get(this.turnState.getBoardSide()).getStore().incrementSeeds(1);
-                    this.turnState.decrementSeeds(1);
-                }
-                this.turnState.incrementBoardSide(1);
-                this.turnState.setHouse(0);
+        while(this.turnState.getSeeds() != 0) {
+            if (checkRules(RuleTriggerTime.beforeEachSeedPlacement)) {
+                return;
             } else {
-                this.boardSides.get(this.turnState.getBoardSide()).getHouse(this.turnState.getHouse()).incrementSeeds();
-                this.turnState.decrementSeeds(1);
-                this.turnState.incrementHouse(1);
+                //If the last board side has ended return to the first house of the first board side
+                if (this.turnState.getBoardSide() >= this.boardSides.size()) {
+                    this.turnState.setHouse(0);
+                    this.turnState.setBoardSide(0);
+                //Add to this players store or skip other players stores
+                } else if ((this.turnState.getHouse() == NUMBER_OF_HOUSES)) {
+                    if (this.turnState.getPlayer() == this.turnState.getBoardSide()) {
+                        this.boardSides.get(this.turnState.getBoardSide()).getStore().incrementSeeds(1);
+                        this.turnState.decrementSeeds(1);
+                    }
+                    this.turnState.incrementBoardSide(1);
+                    this.turnState.setHouse(0);
+                //Place a seed in a house under normal circumstances
+                } else {
+                    this.boardSides.get(this.turnState.getBoardSide()).getHouse(this.turnState.getHouse()).incrementSeeds();
+                    this.turnState.decrementSeeds(1);
+                    this.turnState.incrementHouse(1);
+                }
             }
-            placeSeeds();
         }
+        return;
     }
 
-    //returns true if the turn should stop
     private boolean checkRules(RuleTriggerTime triggerTime) {
         boolean turnEnding = false;
         for (Rule r : this.rules) {
@@ -128,16 +122,30 @@ public class Kalah {
                 b.sumHousesAndEnd();
                 io.println("\tplayer " + (i + 1) + ":" + this.boardSides.get(i).getStore().getSeeds());
             }
-
-            //TODO: make this dynamic for any number of players
-            if (this.boardSides.get(0).getStore().getSeeds() == this.boardSides.get(1).getStore().getSeeds()) {
+            int winner = getWinner();
+            if(winner == -1){
                 io.println("A tie!");
             } else {
-                int winner = this.boardSides.get(0).getStore().getSeeds() > this.boardSides.get(1).getStore()
-                        .getSeeds() ? 1 : 2;
                 io.println("Player " + winner + " wins!");
             }
         }
+    }
+
+    //returns -1 if there was a tie
+    private int getWinner(){
+        int highest = 0;
+        int player = 0;
+        int count = 0;
+        for(int i = 0; i < this.boardSides.size(); i++){
+            if(this.boardSides.get(i).getStore().getSeeds() > highest){
+                highest =this.boardSides.get(i).getStore().getSeeds();
+                player = i;
+                count = 1;
+            }else if( this.boardSides.get(i).getStore().getSeeds() == highest){
+                count++;
+            }
+        }
+        return count > 1 ? -1 : player+1;
     }
 
     public void resetGame() {
