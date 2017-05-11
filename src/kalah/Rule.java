@@ -9,7 +9,7 @@ import java.util.Set;
 public interface Rule {
 
     //returns true if the current turn should end
-    boolean executeLogic(TurnState turnState, ArrayList<BoardSide> boardSides);
+    boolean executeLogic(TurnState turnState, ArrayList<Player> players);
 
     boolean shouldExecute(RuleTriggerTime triggerTime);
 
