@@ -6,7 +6,7 @@ package kalah;
 public class Player {
 
     //starts at 0
-    private int number;
+    private int id;
     private BoardSide boardSide;
 
     public Player(){
@@ -14,21 +14,21 @@ public class Player {
     }
 
     public Player(int number) {
-        this.number = number;
+        this.id = number;
         this.boardSide = new BoardSide();
     }
 
     public Player(int number, BoardSide boardSide) {
-        this.number = number;
+        this.id = number;
         this.boardSide = boardSide;
     }
 
-    public int getNumber() {
-        return number;
+    public int getId() {
+        return id;
     }
 
-    public void setNumber(int number) {
-        this.number = number;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public BoardSide getBoardSide() {

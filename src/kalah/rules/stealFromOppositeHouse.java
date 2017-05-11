@@ -31,14 +31,14 @@ public class stealFromOppositeHouse implements Rule {
     public boolean executeLogic(TurnState turnState, ArrayList<Player> players) {
 
         if (turnState.getHouseNumber() < Kalah.NUMBER_OF_HOUSES &&
-                ((turnState.getBoardSide().getNumber() == turnState.getPlayer().getNumber())
+                ((turnState.getBoardSide().getId() == turnState.getCurrentPlayer().getId())
                         && ((turnState.getBoardSide().getHouse(turnState.getHouseNumber()).getSeeds() == 0) &&
                         (turnState.getSeeds()
                                 == 1)))) {
 
             //TODO: make oppositeplayer variable work for more than two players
             //take all of the opposite stores seeds (hardcoded for two players)
-            int oppositePlayer = turnState.getPlayer().getNumber() == 0 ? 1 : 0;
+            int oppositePlayer = turnState.getCurrentPlayer().getId() == 0 ? 1 : 0;
             int stolenSeeds = players.get(oppositePlayer).getBoardSide().getHouse(6 - turnState.getHouseNumber() - 1)
                                      .takeSeeds();
             if (stolenSeeds > 0) {

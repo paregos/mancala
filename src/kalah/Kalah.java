@@ -43,7 +43,7 @@ public class Kalah {
         while (this.turnState.getSeeds() == 0) {
             KalahUtilities.printBoard(io, this.players);
             if (!checkRules(RuleTriggerTime.beforeTurn)) {
-                this.turnState.setHouseNumber(io.readInteger("Player P" + (this.turnState.getPlayer().getNumber() + 1) + "'s turn - " +
+                this.turnState.setHouseNumber(io.readInteger("Player P" + (this.turnState.getCurrentPlayer().getId() + 1) + "'s turn - " +
                         "Specify house number or 'q' to quit: ", 1, 6, -1, "q") - 1);
 
                 if (this.turnState.getHouseNumber() > -1) {
@@ -63,15 +63,15 @@ public class Kalah {
         }
     }
 
-    public void placeSeeds() {
+    private void placeSeeds() {
         while(this.turnState.getSeeds() != 0) {
             if (checkRules(RuleTriggerTime.beforeEachSeedPlacement)) {
                 return;
             } else {
                 //Add to this players store or skip other players stores
                 if ((this.turnState.getHouseNumber() == NUMBER_OF_HOUSES)) {
-                    if (this.turnState.getPlayer().getNumber() == this.turnState.getBoardSide().getNumber()) {
-                        this.turnState.getPlayer().getBoardSide().getStore().incrementSeeds(1);
+                    if (this.turnState.getCurrentPlayer().getId() == this.turnState.getBoardSide().getId()) {
+                        this.turnState.getCurrentPlayer().getBoardSide().getStore().incrementSeeds(1);
                         this.turnState.decrementSeeds(1);
                     }
                     this.turnState.incrementBoardSide(this.players);
@@ -97,7 +97,7 @@ public class Kalah {
         return turnEnding;
     }
 
-    public void resetGame() {
+    private void resetGame() {
         ArrayList<Player> players = new ArrayList<Player>();
         for (int i = 0; i < NUMBER_OF_PLAYERS; i++) {
             ArrayList<House> houses = new ArrayList<House>();

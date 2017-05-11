@@ -31,7 +31,7 @@ public class endInOwnStore implements Rule {
 
     @Override
     public boolean executeLogic(TurnState turnState, ArrayList<Player> players) {
-        if ((turnState.getBoardSide().getNumber() == turnState.getPlayer().getNumber()) && ((turnState.getSeeds() == 1) && (turnState
+        if ((turnState.getBoardSide().getId() == turnState.getCurrentPlayer().getId()) && ((turnState.getSeeds() == 1) && (turnState
                 .getHouseNumber() == 6))) {
             turnState.getBoardSide().getStore().incrementSeeds(1);
             turnState.decrementSeeds(1);
