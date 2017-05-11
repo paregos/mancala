@@ -11,11 +11,10 @@ import java.util.Set;
  */
 public class endInOwnStore implements Rule {
 
-    Set<RuleTriggerTime> triggerTimes;
+    private Set<RuleTriggerTime> triggerTimes;
 
     public endInOwnStore() {
         super();
-
         //Defining default trigger times.
         HashSet<RuleTriggerTime> t = new HashSet<RuleTriggerTime>();
         t.add(RuleTriggerTime.beforeEachSeedPlacement);
@@ -31,6 +30,7 @@ public class endInOwnStore implements Rule {
 
     @Override
     public boolean executeLogic(TurnState turnState, ArrayList<Player> players) {
+        //If the last seed ends in the store of the active player, the active player recieves another turn
         if ((turnState.getBoardSide().getId() == turnState.getCurrentPlayer().getId()) && ((turnState.getSeeds() == 1) && (turnState
                 .getHouseNumber() == 6))) {
             turnState.getBoardSide().getStore().incrementSeeds(1);

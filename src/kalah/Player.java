@@ -5,7 +5,7 @@ package kalah;
  */
 public class Player {
 
-    //starts at 0
+    //ids start at 0
     private int id;
     private BoardSide boardSide;
 

@@ -9,6 +9,12 @@ import java.util.ArrayList;
  */
 public class KalahUtilities {
 
+    /**
+     * Prints the current state of the board, currently only works for two players.
+     *
+     * @param io        The MockIO interface.
+     * @param players   The list of players contained within Kalah.
+     */
     public static void printBoard(IO io, ArrayList<Player> players) {
         io.println("+----+-------+-------+-------+-------+-------+-------+----+");
         io.println("| P2 " + players.get(1).getBoardSide().toStringReverse() + players.get(0).getBoardSide().getStore().toString());
@@ -18,6 +24,15 @@ public class KalahUtilities {
         return;
     }
 
+    /**
+     * Prints the messages that indicate the end of the game. If the game ended unnaturally e.g by entering an escape
+     * character such as 'q' a different message will be printed than to that of a natural game ending. A tie will
+     * also produce a different game end message.
+     *
+     * @param io            The MockIO interface.
+     * @param players       The list of players contained within Kalah.
+     * @param turnState     The current turnState of the game.
+     */
     public static void printGameEnd(IO io, ArrayList<Player> players, TurnState turnState) {
         io.println("Game over");
         printBoard(io, players);
@@ -39,7 +54,12 @@ public class KalahUtilities {
         return;
     }
 
-    //returns -1 if there was a tie
+    /**
+     * Cycles through all players stores and calculates the winner(s) of the game.
+     *
+     * @param players   The list of players contained within Kalah.
+     * @return          -1 if there is a tie between some players, otherwise the player id of the winner.
+     */
     private static int getWinner(ArrayList<Player> players){
         int highest = 0;
         int player = 0;
@@ -55,6 +75,5 @@ public class KalahUtilities {
         }
         return count > 1 ? -1 : player+1;
     }
-
 
 }

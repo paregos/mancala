@@ -60,7 +60,10 @@ public class BoardSide {
         this.store = store;
     }
 
-    //checks if all houses are empty or not.
+    /**
+     * Cycles through all of the houses within this boardside.
+     * @return  True if there exists only houses with 0 seeds, False otherwise.
+     */
     public boolean hasEmptyHouses(){
         for(House h : this.houses){
             if (h.getSeeds() > 0){
@@ -70,7 +73,10 @@ public class BoardSide {
         return true;
     }
 
-    //go through all houses and place any seeds in this boards store.
+    /**
+     * Called when the game has ended naturally, any seeds remaining on a board side are taken and placed in that
+     * boardsides store.
+     */
     public void sumHousesAndEnd(){
         for(House h : this.houses){
             this.getStore().incrementSeeds(h.getSeeds());
@@ -78,6 +84,9 @@ public class BoardSide {
         return;
     }
 
+    /**
+     * @return  A string representation of this boardside.
+     */
     public String toString(){
         StringBuilder temp = new StringBuilder();
         for(int i = 0; i<this.houses.size(); i++){
@@ -86,6 +95,10 @@ public class BoardSide {
         return temp.toString();
     }
 
+    /**
+     *
+     * @return A string representation of this boardside in reversed order.
+     */
     public String toStringReverse(){
         StringBuilder temp = new StringBuilder();
         for(int i = this.houses.size()-1; i>=0; i--){

@@ -34,8 +34,16 @@ public class TurnState {
         this.seeds = 0;
     }
 
-
     //If the last board side has ended return to the first houseNumber of the first board side
+
+    /**
+     * Increments the board side in a way that mimics the order of players turns. This method is called when seeds
+     * are being placed around the board. When the boardside reaches the side corresponding to the last player
+     * (player 2 in a game of 2 players) and this method is called the boardSide will be set to 0, essentially
+     * wrapping around to the beelining of the total board.
+     *
+     * @param players       The list of players contained within Kalah.
+     */
     public void incrementBoardSide(ArrayList<Player> players){
         int current = this.boardSide.getId();
         this.boardSide = current >= players.size()-1 ?
@@ -43,6 +51,10 @@ public class TurnState {
         return;
     }
 
+    /**
+     * Called directly after setPlayerToNext this method resets the values contained within this turnState instance to
+     * that of a new turn. Seeds and house numbers are cleared and the boardSide is set to the newly assigned player.
+     */
     public void resetTurnState() {
         this.additionalTurn = false;
         this.boardSide = this.currentPlayer.getBoardSide();
@@ -51,6 +63,11 @@ public class TurnState {
         return;
     }
 
+    /**
+     * Sets the active player to be the next player in an incremental order (e.g player 1 -> player 2)
+     *
+     * @param players   The list of players contained within Kalah.
+     */
     public void setPlayerToNext(ArrayList<Player> players) {
         if (!this.additionalTurn) {
             int current = this.currentPlayer.getId();

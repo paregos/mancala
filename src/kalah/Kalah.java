@@ -9,7 +9,7 @@ import kalah.rules.stealFromOppositeHouse;
 import java.util.ArrayList;
 
 /**
- * This class is the starting point for the Modifiability Assignment.
+ * Created by Ben on 5/6/2017.
  */
 public class Kalah {
 
@@ -30,6 +30,12 @@ public class Kalah {
         resetGame();
     }
 
+    /**
+     * Constantly asks for the next player to play their turn. Once the game has ended the appropriate error message
+     * will be printed via the KalahUtilities class.
+     *
+     * @param io The MockIO interface.
+     */
     public void play(IO io) {
         while (this.turnState.getGameOver() == 0) {
             takeSeeds(io);
@@ -39,16 +45,24 @@ public class Kalah {
         KalahUtilities.printGameEnd(io, this.players, this.turnState);
     }
 
+    /**
+     * Repeatedly asks the player whose turn it currently is for a house selection. Once a valid house has been
+     * selected (between 1-6, with seeds inside) the seeds will be removed from that house and the placeSeeds method
+     * will be called. All rules that have been placed within this.rules with the trigger beforeTurn will be
+     * triggered before the turn takes place.
+     *
+     * @param io The MockIO interface.
+     */
     private void takeSeeds(IO io) {
         while (this.turnState.getSeeds() == 0) {
             KalahUtilities.printBoard(io, this.players);
             if (!checkRules(RuleTriggerTime.beforeTurn)) {
-                this.turnState.setHouseNumber(io.readInteger("Player P" + (this.turnState.getCurrentPlayer().getId() + 1) + "'s turn - " +
-                        "Specify house number or 'q' to quit: ", 1, 6, -1, "q") - 1);
-
+                this.turnState.setHouseNumber(
+                        io.readInteger("Player P" + (this.turnState.getCurrentPlayer().getId() + 1) + "'s turn - " +
+                                               "Specify house number or 'q' to quit: ", 1, 6, -1, "q") - 1);
                 if (this.turnState.getHouseNumber() > -1) {
-                    this.turnState.setSeeds(this.turnState.getBoardSide().getHouses().get(this.turnState
-                            .getHouseNumber()).takeSeeds());
+                    this.turnState.setSeeds(
+                            this.turnState.getBoardSide().getHouses().get(this.turnState.getHouseNumber()).takeSeeds());
                     this.turnState.incrementHouse(1);
                 } else {
                     this.turnState.setGameOver(-1);
@@ -63,8 +77,14 @@ public class Kalah {
         }
     }
 
+    /**
+     * Rotates anticlockwise around the set of houses and boardsides placing one seed in each of the houses until
+     * there are none left. If the seeds reach the store of the player whose turn it is a seed will be placed within
+     * it. All rules that have been placed within this.rules with the trigger beforeEachSeedPlacement will be
+     * triggered before each repeated placement.
+     */
     private void placeSeeds() {
-        while(this.turnState.getSeeds() != 0) {
+        while (this.turnState.getSeeds() != 0) {
             if (checkRules(RuleTriggerTime.beforeEachSeedPlacement)) {
                 return;
             } else {
@@ -76,9 +96,9 @@ public class Kalah {
                     }
                     this.turnState.incrementBoardSide(this.players);
                     this.turnState.setHouseNumber(0);
-                //Place a seed in a house under normal circumstances
+                    //Place a seed in a house under normal circumstances
                 } else {
-                    this.turnState.getBoardSide().getHouse(this.turnState.getHouseNumber()).incrementSeeds();
+                    this.turnState.getBoardSide().getHouse(this.turnState.getHouseNumber()).incrementSeeds(1);
                     this.turnState.decrementSeeds(1);
                     this.turnState.incrementHouse(1);
                 }
@@ -87,6 +107,13 @@ public class Kalah {
         return;
     }
 
+    /**
+     * Recurses through all of the rules contained within this.rules and executes their logic if they have a
+     * triggerTime which matches that of the input parameter triggerTime.
+     *
+     * @param triggerTime the triggerTime of which rules should be executed.
+     * @return returns true if the turn should end
+     */
     private boolean checkRules(RuleTriggerTime triggerTime) {
         boolean turnEnding = false;
         for (Rule r : this.rules) {
@@ -97,6 +124,10 @@ public class Kalah {
         return turnEnding;
     }
 
+    /**
+     * Resets the game to a new state, this is used to setup all needed variables at the start of a game. TurnState
+     * is intialised and this.rules is populated with instances of the rules that will be included in the game.
+     */
     private void resetGame() {
         ArrayList<Player> players = new ArrayList<Player>();
         for (int i = 0; i < NUMBER_OF_PLAYERS; i++) {

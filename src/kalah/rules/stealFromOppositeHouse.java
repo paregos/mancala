@@ -11,11 +11,10 @@ import java.util.Set;
  */
 public class stealFromOppositeHouse implements Rule {
 
-    Set<RuleTriggerTime> triggerTimes;
+    private Set<RuleTriggerTime> triggerTimes;
 
     public stealFromOppositeHouse() {
         super();
-
         //Defining default trigger times.
         HashSet<RuleTriggerTime> t = new HashSet<RuleTriggerTime>();
         t.add(RuleTriggerTime.beforeEachSeedPlacement);
@@ -30,14 +29,15 @@ public class stealFromOppositeHouse implements Rule {
     @Override
     public boolean executeLogic(TurnState turnState, ArrayList<Player> players) {
 
+        //If the last seed lands in a previously empty house that is owned by the current player
         if (turnState.getHouseNumber() < Kalah.NUMBER_OF_HOUSES &&
                 ((turnState.getBoardSide().getId() == turnState.getCurrentPlayer().getId())
                         && ((turnState.getBoardSide().getHouse(turnState.getHouseNumber()).getSeeds() == 0) &&
                         (turnState.getSeeds()
                                 == 1)))) {
 
-            //TODO: make oppositeplayer variable work for more than two players
-            //take all of the opposite stores seeds (hardcoded for two players)
+            //TODO: make oppositePlayer variable work for more than two players
+            //Take all of the opposite house's seeds
             int oppositePlayer = turnState.getCurrentPlayer().getId() == 0 ? 1 : 0;
             int stolenSeeds = players.get(oppositePlayer).getBoardSide().getHouse(6 - turnState.getHouseNumber() - 1)
                                      .takeSeeds();

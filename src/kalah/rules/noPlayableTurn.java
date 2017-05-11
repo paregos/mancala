@@ -11,11 +11,10 @@ import java.util.Set;
  */
 public class noPlayableTurn implements Rule {
 
-    Set<RuleTriggerTime> triggerTimes;
+    private Set<RuleTriggerTime> triggerTimes;
 
     public noPlayableTurn(){
         super();
-
         //Defining default trigger times.
         HashSet<RuleTriggerTime> t = new HashSet<RuleTriggerTime>();
         t.add(RuleTriggerTime.beforeTurn);
@@ -32,6 +31,8 @@ public class noPlayableTurn implements Rule {
     @Override
     public boolean executeLogic(TurnState turnState, ArrayList<Player> players) {
 
+        //If the active player only has houses containing 0 seeds there is no playable turn for that player and the
+        // game should end.
         if (turnState.getSeeds() == 0) {
             if (turnState.getBoardSide().hasEmptyHouses()) {
                 turnState.setGameOver(1);
