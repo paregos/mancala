@@ -1,9 +1,6 @@
 package kalah.rules;
 
-import kalah.BoardSide;
-import kalah.Rule;
-import kalah.RuleTriggerTime;
-import kalah.TurnState;
+import kalah.*;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -33,10 +30,10 @@ public class endInOwnStore implements Rule {
 
 
     @Override
-    public boolean executeLogic(TurnState turnState, ArrayList<BoardSide> boardSides) {
-        if ((turnState.getBoardSide() == turnState.getPlayer()) && ((turnState.getSeeds() == 1) && (turnState
-                .getHouse() == 6))) {
-            boardSides.get(turnState.getBoardSide()).getStore().incrementSeeds(1);
+    public boolean executeLogic(TurnState turnState, ArrayList<Player> players) {
+        if ((turnState.getBoardSide().getNumber() == turnState.getPlayer().getNumber()) && ((turnState.getSeeds() == 1) && (turnState
+                .getHouseNumber() == 6))) {
+            turnState.getBoardSide().getStore().incrementSeeds(1);
             turnState.decrementSeeds(1);
             turnState.setAdditionalTurn(true);
             return true;

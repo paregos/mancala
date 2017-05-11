@@ -1,9 +1,6 @@
 package kalah.rules;
 
-import kalah.BoardSide;
-import kalah.Rule;
-import kalah.RuleTriggerTime;
-import kalah.TurnState;
+import kalah.*;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -33,11 +30,10 @@ public class noPlayableTurn implements Rule {
 
 
     @Override
-    public boolean executeLogic(TurnState turnState, ArrayList<BoardSide> boardSides) {
+    public boolean executeLogic(TurnState turnState, ArrayList<Player> players) {
 
         if (turnState.getSeeds() == 0) {
-            System.out.println("no seeds");
-            if (boardSides.get(turnState.getPlayer()).hasEmptyHouses()) {
+            if (turnState.getBoardSide().hasEmptyHouses()) {
                 turnState.setGameOver(1);
                 return true;
             }

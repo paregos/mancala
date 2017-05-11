@@ -9,21 +9,35 @@ public class BoardSide {
 
     private ArrayList<House> houses;
     private Store store;
+    private int number;
 
     public BoardSide(){
         super();
+        this.houses = new ArrayList<House>();
+        this.store = new Store();
+        this.number = 0;
     }
 
-    public BoardSide(ArrayList<House> houses){
+    public BoardSide(ArrayList<House> houses, int number){
         super();
         this.houses = houses;
         this.store = new Store();
+        this.number = number;
     }
 
-    public BoardSide(ArrayList<House> houses, Store store){
+    public BoardSide(ArrayList<House> houses, Store store, int number){
         super();
         this.houses = houses;
         this.store = store;
+        this.number = number;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
     }
 
     public ArrayList<House> getHouses() {

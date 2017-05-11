@@ -1,65 +1,67 @@
 package kalah;
 
+import java.util.ArrayList;
+
 /**
  * Created by Ben on 5/7/2017.
  */
 public class TurnState {
 
     private int seeds;
-    private int player;
+    private Player player;
     private boolean additionalTurn;
-    private int boardSide;
-    private int house;
+    private BoardSide boardSide;
+    private int houseNumber;
     private int gameOver;
 
     public TurnState() {
         super();
         this.seeds = 0;
-        this.player = 0;
+        this.player = null;
         this.additionalTurn = false;
-        this.boardSide = 0;
-        this.house = 0;
+        this.boardSide = null;
+        this.houseNumber = 0;
         this.gameOver = 0;
     }
 
-    public TurnState(int seeds, int player, boolean additionalTurn, int boardSide, int house, int gameOver) {
-        this.seeds = seeds;
+    //Contructor that is used at the beggining of a new game
+    public TurnState(Player player, BoardSide boardSide, int houseNumber) {
+        this.seeds = 0;
         this.player = player;
-        this.additionalTurn = additionalTurn;
+        this.additionalTurn = false;
         this.boardSide = boardSide;
-        this.house = house;
-        this.gameOver = gameOver;
+        this.houseNumber = houseNumber;
+        this.gameOver = 0;
     }
 
 
     public void resetTurnState() {
         this.seeds = 0;
-        this.house = 0;
-        this.boardSide = this.player;
+        this.houseNumber = 0;
         this.additionalTurn = false;
+        this.boardSide = this.player.getBoardSide();
+        return;
     }
 
-    public void setPlayerToNext() {
+    public void setPlayerToNext(ArrayList<Player> players) {
         if (!this.additionalTurn) {
-            this.player++;
-            if (this.player == Kalah.NUMBER_OF_PLAYERS) {
-                this.player = 0;
-            }
-        } else {
-            this.additionalTurn = false;
+            int current = this.player.getNumber();
+            this.player = current == players.size()-1 ? players.get(0) : players.get(current + 1);
         }
-
         this.resetTurnState();
         return;
     }
 
-    public void incrementBoardSide(int value) {
-        this.boardSide += value;
+    //If the last board side has ended return to the first houseNumber of the first board side
+    public void incrementBoardSide(ArrayList<Player> players){
+        int current = this.boardSide.getNumber();
+        this.boardSide = current >= players.size()-1 ?
+                players.get(0).getBoardSide() : players.get(current+1).getBoardSide();
         return;
     }
 
     public void incrementHouse(int value) {
-        this.house += value;
+        this.houseNumber += value;
         return;
     }
 
@@ -67,7 +69,6 @@ public class TurnState {
         this.seeds -= value;
         return;
     }
-
 
     public boolean isAdditionalTurn() {
         return additionalTurn;
@@ -85,28 +86,28 @@ public class TurnState {
         this.seeds = seeds;
     }
 
-    public int getPlayer() {
+    public Player getPlayer() {
         return player;
     }
 
-    public void setPlayer(int player) {
+    public void setPlayer(Player player) {
         this.player = player;
     }
 
-    public int getBoardSide() {
+    public BoardSide getBoardSide() {
         return boardSide;
     }
 
-    public void setBoardSide(int boardSide) {
+    public void setBoardSide(BoardSide boardSide) {
         this.boardSide = boardSide;
     }
 
-    public int getHouse() {
-        return house;
+    public int getHouseNumber() {
+        return houseNumber;
     }
 
-    public void setHouse(int house) {
-        this.house = house;
+    public void setHouseNumber(int houseNumber) {
+        this.houseNumber = houseNumber;
     }
 
     public int getGameOver() {

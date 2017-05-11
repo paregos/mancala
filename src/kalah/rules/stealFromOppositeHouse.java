@@ -13,7 +13,6 @@ public class stealFromOppositeHouse implements Rule {
 
     Set<RuleTriggerTime> triggerTimes;
 
-
     public stealFromOppositeHouse() {
         super();
 
@@ -29,26 +28,27 @@ public class stealFromOppositeHouse implements Rule {
     }
 
     @Override
-    public boolean executeLogic(TurnState turnState, ArrayList<BoardSide> boardSides) {
+    public boolean executeLogic(TurnState turnState, ArrayList<Player> players) {
 
-        if (turnState.getHouse() < Kalah.NUMBER_OF_HOUSES && ((turnState.getBoardSide() == turnState.getPlayer()) && ((boardSides.get
-                (turnState.getBoardSide()).getHouse(turnState.getHouse()).getSeeds() == 0) && (turnState.getSeeds()
-                == 1)))) {
+        if (turnState.getHouseNumber() < Kalah.NUMBER_OF_HOUSES &&
+                ((turnState.getBoardSide().getNumber() == turnState.getPlayer().getNumber())
+                        && ((turnState.getBoardSide().getHouse(turnState.getHouseNumber()).getSeeds() == 0) &&
+                        (turnState.getSeeds()
+                                == 1)))) {
 
             //TODO: make oppositeplayer variable work for more than two players
             //take all of the opposite stores seeds (hardcoded for two players)
-            int oppositePlayer = turnState.getPlayer() == 0 ? 1 : 0;
-            int stolenSeeds = boardSides.get(oppositePlayer).getHouse(6 - turnState.getHouse() - 1).takeSeeds();
+            int oppositePlayer = turnState.getPlayer().getNumber() == 0 ? 1 : 0;
+            int stolenSeeds = players.get(oppositePlayer).getBoardSide().getHouse(6 - turnState.getHouseNumber() - 1)
+                                     .takeSeeds();
             if (stolenSeeds > 0) {
-                boardSides.get(turnState.getBoardSide()).getStore().incrementSeeds((stolenSeeds + 1));
+                turnState.getBoardSide().getStore().incrementSeeds((stolenSeeds + 1));
                 turnState.decrementSeeds(1);
                 return true;
             }
         }
 
         return false;
-
-
     }
 
     @Override
