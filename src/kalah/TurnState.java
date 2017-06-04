@@ -1,6 +1,7 @@
 package kalah;
 
 import kalah.board.BoardSide;
+import kalah.player.Player;
 
 import java.util.ArrayList;
 

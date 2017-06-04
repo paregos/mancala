@@ -2,6 +2,7 @@ package kalah;
 
 import com.qualitascorpus.testsupport.IO;
 import kalah.board.BoardSide;
+import kalah.player.Player;
 
 import java.util.ArrayList;
 

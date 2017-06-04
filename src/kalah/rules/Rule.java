@@ -1,6 +1,6 @@
 package kalah.rules;
 
-import kalah.Player;
+import kalah.player.Player;
 import kalah.TurnState;
 
 import java.util.ArrayList;

@@ -1,6 +1,7 @@
 package kalah.rules;
 
 import kalah.*;
+import kalah.player.Player;
 
 import java.util.ArrayList;
 import java.util.HashSet;

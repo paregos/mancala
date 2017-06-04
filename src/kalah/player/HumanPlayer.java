@@ -1,28 +1,34 @@
-package kalah;
+package kalah.player;
 
+import com.qualitascorpus.testsupport.IO;
 import kalah.board.BoardSide;
 
 /**
  * Created by Ben on 5/10/2017.
  */
-public class Player {
+public class HumanPlayer implements Player{
 
     //ids start at 0
     private int id;
     private BoardSide boardSide;
 
-    public Player(){
+    public HumanPlayer(){
         super();
     }
 
-    public Player(int number) {
+    public HumanPlayer(int number) {
         this.id = number;
         this.boardSide = new BoardSide();
     }
 
-    public Player(int number, BoardSide boardSide) {
+    public HumanPlayer(int number, BoardSide boardSide) {
         this.id = number;
         this.boardSide = boardSide;
+    }
+
+    @Override public int taketurn(IO io) {
+        return io.readInteger("Player P" + (this.id + 1) + "'s turn - " +
+                                      "Specify house number or 'q' to quit: ", 1, 6, -1, "q");
     }
 
     public int getId() {
@@ -37,7 +43,4 @@ public class Player {
         return boardSide;
     }
 
-    public void setBoardSide(BoardSide boardSide) {
-        this.boardSide = boardSide;
-    }
 }
