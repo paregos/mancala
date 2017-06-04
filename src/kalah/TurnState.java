@@ -1,5 +1,7 @@
 package kalah;
 
+import kalah.board.BoardSide;
+
 import java.util.ArrayList;
 
 /**

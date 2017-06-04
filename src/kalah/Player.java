@@ -1,5 +1,7 @@
 package kalah;
 
+import kalah.board.BoardSide;
+
 /**
  * Created by Ben on 5/10/2017.
  */

@@ -1,7 +1,9 @@
-package kalah;
+package kalah.rules;
+
+import kalah.Player;
+import kalah.TurnState;
 
 import java.util.ArrayList;
-import java.util.Set;
 
 /**
  * Created by Ben on 5/9/2017.

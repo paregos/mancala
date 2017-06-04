@@ -1,6 +1,7 @@
 package kalah;
 
 import com.qualitascorpus.testsupport.IO;
+import kalah.board.BoardSide;
 
 import java.util.ArrayList;
 
@@ -16,6 +17,7 @@ public class KalahUtilities {
      * @param players   The list of players contained within Kalah.
      */
     public static void printBoard(IO io, ArrayList<Player> players) {
+        //TODO: make the following be able to handle a dynamic number of players
         io.println("+----+-------+-------+-------+-------+-------+-------+----+");
         io.println("| P2 " + players.get(1).getBoardSide().toStringReverse() + players.get(0).getBoardSide().getStore().toString());
         io.println("|    |-------+-------+-------+-------+-------+-------|    |");

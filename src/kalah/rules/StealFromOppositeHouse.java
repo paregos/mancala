@@ -9,11 +9,11 @@ import java.util.Set;
 /**
  * Created by Ben on 5/9/2017.
  */
-public class stealFromOppositeHouse implements Rule {
+public class StealFromOppositeHouse implements Rule {
 
     private Set<RuleTriggerTime> triggerTimes;
 
-    public stealFromOppositeHouse() {
+    public StealFromOppositeHouse() {
         super();
         //Defining default trigger times.
         HashSet<RuleTriggerTime> t = new HashSet<RuleTriggerTime>();
@@ -21,7 +21,7 @@ public class stealFromOppositeHouse implements Rule {
         this.triggerTimes = t;
     }
 
-    public stealFromOppositeHouse(HashSet<RuleTriggerTime> triggerTimes) {
+    public StealFromOppositeHouse(HashSet<RuleTriggerTime> triggerTimes) {
         super();
         this.triggerTimes = triggerTimes;
     }

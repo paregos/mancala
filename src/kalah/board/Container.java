@@ -1,4 +1,4 @@
-package kalah;
+package kalah.board;
 
 /**
  * Created by Ben on 5/11/2017.

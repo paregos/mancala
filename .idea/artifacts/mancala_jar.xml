@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="mancala:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/mancala_jar</output-path>
+    <root id="archive" name="mancala.jar">
+      <element id="module-output" name="mancala" />
+    </root>
+  </artifact>
+</component>

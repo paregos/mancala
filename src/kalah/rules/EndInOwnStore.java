@@ -9,11 +9,11 @@ import java.util.Set;
 /**
  * Created by Ben on 5/9/2017.
  */
-public class endInOwnStore implements Rule {
+public class EndInOwnStore implements Rule {
 
     private Set<RuleTriggerTime> triggerTimes;
 
-    public endInOwnStore() {
+    public EndInOwnStore() {
         super();
         //Defining default trigger times.
         HashSet<RuleTriggerTime> t = new HashSet<RuleTriggerTime>();
@@ -22,7 +22,7 @@ public class endInOwnStore implements Rule {
         this.triggerTimes = t;
     }
 
-    public endInOwnStore(HashSet<RuleTriggerTime> triggerTimes) {
+    public EndInOwnStore(HashSet<RuleTriggerTime> triggerTimes) {
         super();
         this.triggerTimes = triggerTimes;
     }

@@ -6,23 +6,25 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+
 /**
  * Created by Ben on 5/10/2017.
  */
-public class noPlayableTurn implements Rule {
+public class NoPlayableTurn implements Rule {
 
     private Set<RuleTriggerTime> triggerTimes;
 
-    public noPlayableTurn(){
+    public NoPlayableTurn(){
         super();
         //Defining default trigger times.
         HashSet<RuleTriggerTime> t = new HashSet<RuleTriggerTime>();
         t.add(RuleTriggerTime.beforeTurn);
 
         this.triggerTimes = t;
+
     }
 
-    public noPlayableTurn(HashSet<RuleTriggerTime> triggerTimes){
+    public NoPlayableTurn(HashSet<RuleTriggerTime> triggerTimes){
         super();
         this.triggerTimes = triggerTimes;
     }

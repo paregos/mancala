@@ -1,4 +1,4 @@
-package kalah;
+package kalah.board;
 
 import java.util.ArrayList;
 
@@ -7,25 +7,25 @@ import java.util.ArrayList;
  */
 public class BoardSide {
 
-    private ArrayList<House> houses;
-    private Store store;
+    private ArrayList<Container> houses;
+    private Container store;
     private int id;
 
     public BoardSide(){
         super();
-        this.houses = new ArrayList<House>();
+        this.houses = new ArrayList<Container>();
         this.store = new Store();
         this.id = 0;
     }
 
-    public BoardSide(ArrayList<House> houses, int number){
+    public BoardSide(ArrayList<Container> houses, int number){
         super();
         this.houses = houses;
         this.store = new Store();
         this.id = number;
     }
 
-    public BoardSide(ArrayList<House> houses, Store store, int number){
+    public BoardSide(ArrayList<Container> houses, Store store, int number){
         super();
         this.houses = houses;
         this.store = store;
@@ -40,19 +40,19 @@ public class BoardSide {
         this.id = id;
     }
 
-    public ArrayList<House> getHouses() {
+    public ArrayList<Container> getHouses() {
         return houses;
     }
 
     public House getHouse(int index) {
-        return this.houses.get(index);
+        return (House)this.houses.get(index);
     }
 
-    public void setHouses(ArrayList<House> houses) {
+    public void setHouses(ArrayList<Container> houses) {
         this.houses = houses;
     }
 
-    public Store getStore() {
+    public Container getStore() {
         return store;
     }
 
@@ -65,7 +65,7 @@ public class BoardSide {
      * @return  True if there exists only houses with 0 seeds, False otherwise.
      */
     public boolean hasEmptyHouses(){
-        for(House h : this.houses){
+        for(Container h : this.houses){
             if (h.getSeeds() > 0){
                 return false;
             }
@@ -78,7 +78,7 @@ public class BoardSide {
      * boardsides store.
      */
     public void sumHousesAndEnd(){
-        for(House h : this.houses){
+        for(Container h : this.houses){
             this.getStore().incrementSeeds(h.getSeeds());
         }
         return;

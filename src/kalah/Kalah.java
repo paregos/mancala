@@ -2,9 +2,10 @@ package kalah;
 
 import com.qualitascorpus.testsupport.IO;
 import com.qualitascorpus.testsupport.MockIO;
-import kalah.rules.endInOwnStore;
-import kalah.rules.noPlayableTurn;
-import kalah.rules.stealFromOppositeHouse;
+import kalah.board.BoardSide;
+import kalah.board.Container;
+import kalah.board.House;
+import kalah.rules.*;
 
 import java.util.ArrayList;
 
@@ -86,7 +87,7 @@ public class Kalah {
     private void placeSeeds() {
         while (this.turnState.getSeeds() != 0) {
             if (checkRules(RuleTriggerTime.beforeEachSeedPlacement)) {
-                return;
+                    return;
             } else {
                 //Add to this players store or skip other players stores
                 if ((this.turnState.getHouseNumber() == NUMBER_OF_HOUSES)) {
@@ -131,7 +132,7 @@ public class Kalah {
     private void resetGame() {
         ArrayList<Player> players = new ArrayList<Player>();
         for (int i = 0; i < NUMBER_OF_PLAYERS; i++) {
-            ArrayList<House> houses = new ArrayList<House>();
+            ArrayList<Container> houses = new ArrayList<Container>();
             for (int j = 0; j < NUMBER_OF_HOUSES; j++) {
                 houses.add(new House());
             }
@@ -140,9 +141,9 @@ public class Kalah {
 
         //Creating the set of rules for this game
         ArrayList<Rule> rules = new ArrayList<Rule>();
-        rules.add(new endInOwnStore());
-        rules.add(new stealFromOppositeHouse());
-        rules.add(new noPlayableTurn());
+        rules.add(new EndInOwnStore());
+        rules.add(new StealFromOppositeHouse());
+        rules.add(new NoPlayableTurn());
         this.rules = rules;
 
         this.players = players;

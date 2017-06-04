@@ -1,19 +1,17 @@
-package kalah;
+package kalah.board;
 
 /**
  * Created by Ben on 5/6/2017.
  */
-public class House implements Container{
+public class Store implements Container{
 
     private int seeds;
 
-    public House(){
-        super();
-        this.seeds = 4;
+    public Store(){
+        this.seeds = 0;
     }
 
-    public House(int seeds){
-        super();
+    public Store(int seeds){
         this.seeds = seeds;
     }
 
@@ -24,10 +22,7 @@ public class House implements Container{
 
     @Override
     public int takeSeeds() {
-        int temp = seeds;
-        this.seeds = 0;
-        return temp;
-
+        return 0;
     }
 
     @Override
@@ -43,11 +38,12 @@ public class House implements Container{
 
     @Override
     public String toString(){
-        if(this.seeds<10) {
-            return "[ " + this.seeds + "]";
+        if(this.seeds < 10) {
+            return "|  " + this.seeds + " |";
         }else{
-            return "["+this.seeds+"]";
+            return "| " + this.seeds + " |";
         }
+
     }
 
 }
