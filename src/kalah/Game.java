@@ -10,4 +10,5 @@ public interface Game {
 
     void play(IO io);
     boolean checkRules(RuleTriggerTime triggerTime);
+
 }

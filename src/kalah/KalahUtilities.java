@@ -11,6 +11,8 @@ import java.util.ArrayList;
  */
 public class KalahUtilities {
 
+    private static int numberOfHouses;
+
     /**
      * Prints the current state of the board, currently only works for two players.
      *
@@ -19,11 +21,25 @@ public class KalahUtilities {
      */
     public static void printBoard(IO io, ArrayList<Player> players) {
         //TODO: make the following be able to handle a dynamic number of players
-        io.println("+----+-------+-------+-------+-------+-------+-------+----+");
+
+        io.print("+----+");
+        for(int i = 0; i<numberOfHouses; i++){
+            io.print("-------+");
+        }
+        io.println("----+");
         io.println("| P2 " + players.get(1).getBoardSide().toStringReverse() + players.get(0).getBoardSide().getStore().toString());
-        io.println("|    |-------+-------+-------+-------+-------+-------|    |");
+        io.print("|    |");
+        for(int i = 0; i<numberOfHouses-1; i++){
+            io.print("-------+");
+        }
+        io.print("-------");
+        io.println("|    |");
         io.println(players.get(1).getBoardSide().getStore().toString() + players.get(0).getBoardSide().toString() + " P1 |");
-        io.println("+----+-------+-------+-------+-------+-------+-------+----+");
+        io.print("+----+");
+        for(int i = 0; i<numberOfHouses; i++){
+            io.print("-------+");
+        }
+        io.println("----+");
         return;
     }
 
@@ -77,6 +93,10 @@ public class KalahUtilities {
             }
         }
         return count > 1 ? -1 : player+1;
+    }
+
+    public static void setNumberOfHouses(int numberOfHouses) {
+        KalahUtilities.numberOfHouses = numberOfHouses;
     }
 
 }

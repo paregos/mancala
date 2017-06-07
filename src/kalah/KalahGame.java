@@ -16,11 +16,14 @@ public class KalahGame implements Game{
     private ArrayList<Player> players;
     private TurnState turnState;
     private ArrayList<Rule> rules;
+    private int numberOfHouses;
 
-    public KalahGame(ArrayList<Rule> rules, ArrayList<Player> players, TurnState turnState) {
+    public KalahGame(ArrayList<Rule> rules, ArrayList<Player> players, TurnState turnState, int numberOfHouses) {
         this.rules = rules;
         this.players = players;
         this.turnState = turnState;
+        this.numberOfHouses = numberOfHouses;
+        KalahUtilities.setNumberOfHouses(numberOfHouses);
     }
 
     /**
@@ -80,16 +83,16 @@ public class KalahGame implements Game{
                 return;
             } else {
                 //Add to this players store or skip other players stores
-                if ((this.turnState.getHouseNumber() == this.turnState.getBoardSide().getHouses().size())) {
-                    if (this.turnState.getCurrentPlayer().getId() == this.turnState.getBoardSide().getId()) {
-                        this.turnState.getCurrentPlayer().getBoardSide().getStore().incrementSeeds(1);
+                if ((this.turnState.isAtStore())) {
+                    if (this.turnState.isOnPlayersBoardSide()) {
+                        this.turnState.incrementStoreSeeds(1);
                         this.turnState.decrementSeeds(1);
                     }
                     this.turnState.incrementBoardSide(this.players);
                     this.turnState.setHouseNumber(0);
                     //Place a seed in a house under normal circumstances
                 } else {
-                    this.turnState.getBoardSide().getHouse(this.turnState.getHouseNumber()).incrementSeeds(1);
+                    this.turnState.incrementHouseSeeds(1);
                     this.turnState.decrementSeeds(1);
                     this.turnState.incrementHouse(1);
                 }
@@ -110,7 +113,8 @@ public class KalahGame implements Game{
         boolean turnEnding = false;
         for (Rule r : this.rules) {
             if (r.shouldExecute(triggerTime)) {
-                turnEnding = turnEnding || r.executeLogic(this.turnState, this.players);
+                turnEnding = turnEnding ||
+                        r.executeLogic(this.turnState, this.players);
             }
         }
         return turnEnding;

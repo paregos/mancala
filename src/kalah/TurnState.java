@@ -1,5 +1,6 @@
 package kalah;
 
+import kalah.board.BoardDirection;
 import kalah.board.BoardSide;
 import kalah.player.Player;
 
@@ -16,6 +17,7 @@ public class TurnState {
     private int gameOver;
     private int houseNumber;
     private int seeds;
+    private BoardDirection boardDirection;
 
     public TurnState() {
         super();
@@ -25,16 +27,18 @@ public class TurnState {
         this.gameOver = 0;
         this.houseNumber = 0;
         this.seeds = 0;
+        this.boardDirection = null;
     }
 
     //Contructor that is used at the beggining of a new game
-    public TurnState(Player player, BoardSide boardSide, int houseNumber) {
+    public TurnState(Player player, BoardSide boardSide, int houseNumber, BoardDirection boardDirection) {
         this.additionalTurn = false;
         this.boardSide = boardSide;
         this.currentPlayer = player;
         this.gameOver = 0;
         this.houseNumber = houseNumber;
         this.seeds = 0;
+        this.boardDirection = boardDirection;
     }
 
     //If the last board side has ended return to the first houseNumber of the first board side
@@ -48,9 +52,7 @@ public class TurnState {
      * @param players       The list of players contained within Kalah.
      */
     public void incrementBoardSide(ArrayList<Player> players){
-        int current = this.boardSide.getId();
-        this.boardSide = current >= players.size()-1 ?
-                players.get(0).getBoardSide() : players.get(current+1).getBoardSide();
+        this.boardSide = this.boardDirection.incrementBoardSide(players, this.boardSide);
         return;
     }
 
@@ -80,14 +82,30 @@ public class TurnState {
         return;
     }
 
+    public boolean isAtStore(){
+       return this.boardDirection.isAtStore(this.houseNumber, this.boardSide.getHouses().size());
+    }
+
     public void incrementHouse(int value) {
-        this.houseNumber += value;
+        this.houseNumber = this.boardDirection.changeHouse(this.houseNumber, value);
         return;
     }
 
     public void decrementSeeds(int value) {
         this.seeds -= value;
         return;
+    }
+
+    public boolean isOnPlayersBoardSide(){
+        return this.currentPlayer.getId() == this.getBoardSide().getId();
+    }
+
+    public void incrementStoreSeeds(int value){
+        this.currentPlayer.getBoardSide().getStore().incrementSeeds(value);
+    }
+
+    public void incrementHouseSeeds(int value){
+        this.boardSide.getHouse(this.houseNumber).incrementSeeds(value);
     }
 
     public boolean isAdditionalTurn() {

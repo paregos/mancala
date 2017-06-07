@@ -28,7 +28,8 @@ public class HumanPlayer implements Player{
 
     @Override public int taketurn(IO io) {
         return io.readInteger("Player P" + (this.id + 1) + "'s turn - " +
-                                      "Specify house number or 'q' to quit: ", 1, 6, -1, "q");
+                                      "Specify house number or 'q' to quit: ", 1, this.boardSide.getHouses().size(), -1,
+                              "q");
     }
 
     public int getId() {

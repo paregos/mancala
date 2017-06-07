@@ -2,6 +2,7 @@ package kalah;
 
 import com.qualitascorpus.testsupport.IO;
 import com.qualitascorpus.testsupport.MockIO;
+import kalah.board.AntiClockwiseBoard;
 import kalah.board.BoardSide;
 import kalah.board.Container;
 import kalah.board.House;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 public class Kalah {
 
     public static final int NUMBER_OF_HOUSES = 6;
+    public static final int NUMBER_OF_SEEDS = 4;
     public static final int NUMBER_OF_PLAYERS = 2;
 
     public static void main(String[] args) {
@@ -40,7 +42,7 @@ public class Kalah {
         for (int i = 0; i < NUMBER_OF_PLAYERS; i++) {
             ArrayList<Container> houses = new ArrayList<Container>();
             for (int j = 0; j < NUMBER_OF_HOUSES; j++) {
-                houses.add(new House());
+                houses.add(new House(NUMBER_OF_SEEDS));
             }
             players.add(new HumanPlayer(i, new BoardSide(houses, i)));
         }
@@ -52,10 +54,11 @@ public class Kalah {
         rules.add(new NoPlayableTurn());
 
         //Creating the turnstate for the game
-        TurnState turnState = new TurnState(players.get(0), players.get(0).getBoardSide(), 0);
+        TurnState turnState = new TurnState(players.get(0), players.get(0).getBoardSide(), 0,
+                                            new AntiClockwiseBoard());
 
         //Intialising and starting the game
-        Game game = new KalahGame(rules, players, turnState);
+        Game game = new KalahGame(rules, players, turnState, NUMBER_OF_HOUSES);
         game.play(io);
     }
 
